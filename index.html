@@ -39,6 +39,19 @@
     /* Subjects */
     .subjects{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0}
     .subject{background:white;padding:14px;border-radius:10px;text-align:center;box-shadow:0 6px 18px rgba(10,20,40,0.04)}
+    /* Slider (student + video) styles */
+    .cs-slider{position:relative;overflow:hidden;border-radius:12px;background:#fff;box-shadow:0 10px 30px rgba(10,20,40,0.06);margin:18px 0}
+    .cs-slides{display:flex;transition:transform .55s ease;will-change:transform}
+    .cs-slide{min-width:100%;box-sizing:border-box;padding:10px;display:flex;align-items:center;justify-content:center}
+    .cs-slide img{width:100%;height:280px;object-fit:cover;border-radius:8px;display:block}
+    .video-wrap{position:relative;width:100%;padding-bottom:56.25%;height:0;border-radius:8px;overflow:hidden}
+    .video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+    .cs-control{position:absolute;top:50%;transform:translateY(-50%);background:rgba(7,42,87,0.85);color:#fff;border:none;border-radius:50%;width:44px;height:44px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:20}
+    .cs-prev{left:12px}
+    .cs-next{right:12px}
+    .cs-dots{position:absolute;left:50%;transform:translateX(-50%);bottom:12px;display:flex;gap:8px;z-index:20}
+    .cs-dot{width:10px;height:10px;border-radius:50%;background:rgba(0,0,0,0.15);cursor:pointer}
+    .cs-dot.active{background:var(--accent);box-shadow:0 4px 12px rgba(0,0,0,0.12)}
     /* Notes list */
     .notes{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
     .notes a{display:block;padding:12px;border-radius:8px;background:linear-gradient(90deg,#fff,#fbfbfb);border:1px solid #eee}
@@ -52,12 +65,15 @@
       .subjects{grid-template-columns:repeat(2,1fr)}
       .notes{grid-template-columns:1fr}
       nav ul{display:none}
+      .cs-slide img{height:220px}
     }
     @media (max-width:480px){
       header{padding:14px 12px}
       .brand img{width:52px;height:52px}
       .hero{padding:36px 0}
       .hero h2{font-size:22px}
+      .cs-control{width:36px;height:36px}
+      .cs-slide img{height:180px}
     }
   </style>
 </head>
@@ -65,7 +81,7 @@
   <header>
     <div class="container nav">
       <div class="brand">
-        <img src="ah">
+        <img src="./img/WhatsApp Image 2025-11-03 at 11.50.57 PM.jpeg" alt="Chemista logo">
         <div><h1>Chemista Academy</h1><div style="font-size:12px;opacity:0.9">A-Level: Cambridge • Edexcel • AQA</div></div>
       </div>
       <nav>
@@ -87,7 +103,7 @@
     <section class="hero">
       <div class="container hero-grid">
         <div>
-          <h2>Learn Smart. Score Higher in A‑Levels.</h2>
+          <h2>Learn Smart. Score Higher in A-Levels.</h2>
           <p>Expert teachers for <strong>Chemistry, Biology, Physics, Maths</strong>. Courses tailored for Cambridge, Edexcel & AQA boards. Notes, past papers & video lessons — all in one place.</p>
           <div class="buttons">
             <a class="cta" href="#courses">Explore Courses</a>
@@ -142,6 +158,37 @@
         <div class="subject"><strong>Maths</strong><div style="font-size:13px;opacity:0.85;margin-top:8px">Exam Techniques & Practice</div></div>
       </div>
 
+      <!-- ===== Student Image + YouTube Slider (after Subjects) ===== -->
+      <section aria-label="Student achievements and class video">
+        <h3 style="margin-top:18px;text-align:center">Student Achievements & Class Video</h3>
+        <div class="cs-slider" id="studentSlider" style="max-width:980px;margin:12px auto 24px;">
+          <div class="cs-slides">
+            <!-- Image slides: replace src with your real images -->
+            <div class="cs-slide"><img src="./img/student1.jpg" alt="Student 1 — Practical"></div>
+            <div class="cs-slide"><img src="./img/student2.jpg" alt="Student 2 — Lab"></div>
+            <div class="cs-slide"><img src="./img/student3.jpg" alt="Student 3 — Class"></div>
+
+            <!-- YouTube slide: replace YOUTUBE_VIDEO_ID with your ID -->
+            <div class="cs-slide">
+              <div class="video-wrap">
+                <iframe src="https://www.youtube.com/embed/YOUTUBE_VIDEO_ID?rel=0&modestbranding=1"
+                  title="Chemista Academy class recording"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen></iframe>
+              </div>
+            </div>
+
+            <!-- One more image slide -->
+            <div class="cs-slide"><img src="./img/student4.jpg" alt="Students group photo"></div>
+          </div>
+
+          <button class="cs-control cs-prev" aria-label="Previous slide">&#10094;</button>
+          <button class="cs-control cs-next" aria-label="Next slide">&#10095;</button>
+          <div class="cs-dots" role="tablist" aria-label="Slide indicators"></div>
+        </div>
+      </section>
+      <!-- ===== end slider ===== -->
+
       <h3 id="notes">Free Notes & Past Papers</h3>
       <div class="notes" style="margin-top:8px">
         <a href="#" onclick="alert('Demo: download')">Chemistry — Notes (PDF)</a>
@@ -186,6 +233,98 @@
       </div>
     </div>
   </footer>
+
+  <!-- Slider JS (keeps it simple & lightweight) -->
+  <script>
+    (function(){
+      const slider = document.getElementById('studentSlider');
+      const slidesWrap = slider.querySelector('.cs-slides');
+      const slides = Array.from(slidesWrap.children);
+      const prevBtn = slider.querySelector('.cs-prev');
+      const nextBtn = slider.querySelector('.cs-next');
+      const dotsWrap = slider.querySelector('.cs-dots');
+
+      let index = 0;
+      let autoplayInterval = 4000;
+      let autoplayTimer = null;
+      let isHover = false;
+
+      // Build dots
+      slides.forEach((s, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'cs-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Go to slide ' + (i+1));
+        dot.addEventListener('click', () => goTo(i));
+        dotsWrap.appendChild(dot);
+      });
+
+      const dots = Array.from(dotsWrap.children);
+
+      function update() {
+        slidesWrap.style.transform = `translateX(-${index * 100}%)`;
+        dots.forEach((d, i) => d.classList.toggle('active', i === index));
+        handleVideoSlide();
+      }
+
+      function prev() { index = (index - 1 + slides.length) % slides.length; update(); resetAutoplay(); }
+      function next() { index = (index + 1) % slides.length; update(); resetAutoplay(); }
+      prevBtn.addEventListener('click', prev);
+      nextBtn.addEventListener('click', next);
+
+      function goTo(i){ index = i % slides.length; update(); resetAutoplay(); }
+
+      function startAutoplay(){
+        stopAutoplay();
+        autoplayTimer = setInterval(() => { if(!isHover) next(); }, autoplayInterval);
+      }
+      function stopAutoplay(){ if(autoplayTimer) clearInterval(autoplayTimer); autoplayTimer = null; }
+      function resetAutoplay(){ stopAutoplay(); startAutoplay(); }
+
+      slider.addEventListener('mouseenter', ()=> { isHover = true; stopAutoplay(); });
+      slider.addEventListener('mouseleave', ()=> { isHover = false; startAutoplay(); });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') prev();
+        if (e.key === 'ArrowRight') next();
+      });
+
+      // If active slide is video, pause auto slide (so user can watch)
+      function handleVideoSlide(){
+        const active = slides[index];
+        const iframe = active.querySelector('iframe');
+        if (iframe) {
+          stopAutoplay();
+          // ensure iframe has src (some setups may lazy-load)
+          if (!iframe.src || iframe.src.trim() === '') {
+            const src = iframe.getAttribute('data-src') || iframe.getAttribute('src');
+            iframe.src = src;
+          }
+        } else {
+          if (!autoplayTimer) startAutoplay();
+        }
+        // Optionally stop other iframes
+        const allIframes = slider.querySelectorAll('iframe');
+        allIframes.forEach((f) => {
+          const fParent = f.closest('.cs-slide');
+          if (fParent !== active) {
+            // stop video by removing src (uncomment to force stop)
+            // const saved = f.getAttribute('data-src') || f.src; f.setAttribute('data-src', saved); f.src = '';
+          }
+        });
+      }
+
+      // init
+      update();
+      startAutoplay();
+
+      // hide controls if only one slide
+      if (slides.length <= 1) {
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+        dotsWrap.style.display = 'none';
+      }
+    })();
+  </script>
 
 </body>
 </html>
