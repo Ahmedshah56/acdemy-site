@@ -6,8 +6,8 @@
   <title>Chemista Academy — Demo Homepage</title>
   <style>
     :root{
-      --navy: #072a57; /* deep navy */
-      --accent: #ffd54a; /* yellow */
+      --navy: #072a57;
+      --accent: #ffd54a;
       --muted: #f4f6f8;
       --text: #0b2340;
       --card: #ffffff;
@@ -24,7 +24,6 @@
     nav ul{display:flex;gap:14px;align-items:center;margin:0;padding:0;list-style:none}
     nav li{font-size:15px;opacity:0.95}
     .cta{background:var(--accent);color:var(--navy);padding:10px 14px;border-radius:10px;font-weight:600}
-    /* Hero */
     .hero{background:linear-gradient(180deg, rgba(7,42,87,0.95) 0%, rgba(7,42,87,0.85) 100%);color:white;padding:60px 0 44px}
     .hero-grid{display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:center}
     .hero h2{margin:0;font-size:30px;line-height:1.08}
@@ -32,14 +31,11 @@
     .hero .buttons{display:flex;gap:12px}
     .btn-outline{background:transparent;border:2px solid rgba(255,255,255,0.18);color:white;padding:10px 14px;border-radius:10px}
     .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(10,20,40,0.08)}
-    /* Features */
     .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}
     .feature{background:white;padding:18px;border-radius:10px;box-shadow:0 6px 18px rgba(10,20,40,0.06)}
     .feature h4{margin:6px 0 8px}
-    /* Subjects */
     .subjects{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0}
     .subject{background:white;padding:14px;border-radius:10px;text-align:center;box-shadow:0 6px 18px rgba(10,20,40,0.04)}
-    /* Slider (student + video) styles */
     .cs-slider{position:relative;overflow:hidden;border-radius:12px;background:#fff;box-shadow:0 10px 30px rgba(10,20,40,0.06);margin:18px 0}
     .cs-slides{display:flex;transition:transform .55s ease;will-change:transform}
     .cs-slide{min-width:100%;box-sizing:border-box;padding:10px;display:flex;align-items:center;justify-content:center}
@@ -52,12 +48,10 @@
     .cs-dots{position:absolute;left:50%;transform:translateX(-50%);bottom:12px;display:flex;gap:8px;z-index:20}
     .cs-dot{width:10px;height:10px;border-radius:50%;background:rgba(0,0,0,0.15);cursor:pointer}
     .cs-dot.active{background:var(--accent);box-shadow:0 4px 12px rgba(0,0,0,0.12)}
-    /* Notes list */
     .notes{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
     .notes a{display:block;padding:12px;border-radius:8px;background:linear-gradient(90deg,#fff,#fbfbfb);border:1px solid #eee}
     footer{padding:26px 0;background:#062243;color:white;margin-top:28px}
     .social{display:flex;gap:10px;margin-top:8px}
-    /* Responsive */
     @media (max-width:900px){
       .hero-grid{grid-template-columns:1fr; text-align:center}
       .hero .card{margin:20px auto 0;max-width:520px}
@@ -81,7 +75,7 @@
   <header>
     <div class="container nav">
       <div class="brand">
-        <img src="ah">
+        <img src="ah" alt="Chemista Logo">
         <div><h1>Chemista Academy</h1><div style="font-size:12px;opacity:0.9">A-Level: Cambridge • Edexcel • AQA</div></div>
       </div>
       <nav>
@@ -108,7 +102,6 @@
           <div class="buttons">
             <a class="cta" href="#courses">Explore Courses</a>
             <a class="btn-outline" href="#notes">Teachers Registration</a>
-                  <form id="register" onsubmit="alert('Demo: form submit');return false">
           </div>
 
           <div style="margin-top:18px;display:flex;gap:12px;flex-wrap:wrap">
@@ -159,26 +152,20 @@
         <div class="subject"><strong>Maths</strong><div style="font-size:13px;opacity:0.85;margin-top:8px">Exam Techniques & Practice</div></div>
       </div>
 
-      <!-- ===== Student Image + YouTube Slider (after Subjects) ===== -->
+      <!-- ===== Student Image + YouTube Slider ===== -->
       <section aria-label="Student achievements and class video">
         <h3 style="margin-top:18px;text-align:center">Student Achievements & Class Video</h3>
-        <div class="cs-slider" id="studentSlider" style="max-width:980px;margin:12px auto 24px;>
+        <div class="cs-slider" id="studentSlider" style="max-width:980px;margin:12px auto 24px;">
           <div class="cs-slides">
-            <!-- Image slides: replace src with your real images -->
-  <div class="cs-slide"><img src="1.jpg" ></div>
-            <div class="cs-slide"><img src="2.jpg"></div>
-            <div class="cs-slide"><img src="3.jpg"></div>
-
-            <!-- YouTube slide: replace YOUTUBE_VIDEO_ID with your ID -->
+            <div class="cs-slide"><img src="1.jpg" alt="Student 1"></div>
+            <div class="cs-slide"><img src="2.jpg" alt="Student 2"></div>
+            <div class="cs-slide"><img src="3.jpg" alt="Student 3"></div>
             <div class="cs-slide">
-            <div class="video-wrap">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/7Uy_yonHhAg?si=bkE8WG5T7Qbgo6P-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-</div>
-
+              <div class="video-wrap">
+                <iframe src="https://www.youtube.com/embed/7Uy_yonHhAg?enablejsapi=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
             </div>
-
-            <!-- One more image slide -->
-            <div class="cs-slide"><img src="2.jp""></div>
+            <div class="cs-slide"><img src="4.jpg" alt="Student 4"></div>
           </div>
 
           <button class="cs-control cs-prev" aria-label="Previous slide">&#10094;</button>
@@ -186,7 +173,6 @@
           <div class="cs-dots" role="tablist" aria-label="Slide indicators"></div>
         </div>
       </section>
-      <!-- ===== end slider ===== -->
 
       <h3 id="notes">Free Notes & Past Papers</h3>
       <div class="notes" style="margin-top:8px">
@@ -213,7 +199,6 @@
       </div>
 
     </div>
-
   </main>
 
   <footer>
@@ -226,14 +211,13 @@
         <div>Contact: +92 345 2048907</div>
         <div class="social">
           <a href="#" style="background:var(--card);padding:8px;border-radius:8px;color:var(--navy)">YouTube</a>
-          <a href="https://www.instagram.com/chemistaacademy?utm_source=qr&igsh=OGcxYjZibnZjd3M3" style="background:var(--card);padding:8px;border-radius:8px;color:var(--navy)" target="_blank">Instagram</a>
+          <a href="https://www.instagram.com/chemistaacademy" style="background:var(--card);padding:8px;border-radius:8px;color:var(--navy)" target="_blank">Instagram</a>
           <a href="https://www.facebook.com/share/1G9AVsnPoC/" style="background:var(--card);padding:8px;border-radius:8px;color:var(--navy)" target="_blank">Facebook</a>
         </div>
       </div>
     </div>
   </footer>
 
-  <!-- Slider JS (keeps it simple & lightweight) -->
   <script>
     (function(){
       const slider = document.getElementById('studentSlider');
@@ -248,7 +232,6 @@
       let autoplayTimer = null;
       let isHover = false;
 
-      // Build dots
       slides.forEach((s, i) => {
         const dot = document.createElement('button');
         dot.className = 'cs-dot' + (i === 0 ? ' active' : '');
@@ -269,61 +252,27 @@
       function next() { index = (index + 1) % slides.length; update(); resetAutoplay(); }
       prevBtn.addEventListener('click', prev);
       nextBtn.addEventListener('click', next);
-
       function goTo(i){ index = i % slides.length; update(); resetAutoplay(); }
 
-      function startAutoplay(){
-        stopAutoplay();
-        autoplayTimer = setInterval(() => { if(!isHover) next(); }, autoplayInterval);
-      }
+      function startAutoplay(){ stopAutoplay(); autoplayTimer = setInterval(() => { if(!isHover) next(); }, autoplayInterval); }
       function stopAutoplay(){ if(autoplayTimer) clearInterval(autoplayTimer); autoplayTimer = null; }
       function resetAutoplay(){ stopAutoplay(); startAutoplay(); }
 
       slider.addEventListener('mouseenter', ()=> { isHover = true; stopAutoplay(); });
       slider.addEventListener('mouseleave', ()=> { isHover = false; startAutoplay(); });
 
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') prev();
-        if (e.key === 'ArrowRight') next();
-      });
+      document.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') prev(); if (e.key === 'ArrowRight') next(); });
 
-      // If active slide is video, pause auto slide (so user can watch)
       function handleVideoSlide(){
         const active = slides[index];
         const iframe = active.querySelector('iframe');
-        if (iframe) {
-          stopAutoplay();
-          // ensure iframe has src (some setups may lazy-load)
-          if (!iframe.src || iframe.src.trim() === '') {
-            const src = iframe.getAttribute('data-src') || iframe.getAttribute('src');
-            iframe.src = src;
-          }
-        } else {
-          if (!autoplayTimer) startAutoplay();
-        }
-        // Optionally stop other iframes
-        const allIframes = slider.querySelectorAll('iframe');
-        allIframes.forEach((f) => {
-          const fParent = f.closest('.cs-slide');
-          if (fParent !== active) {
-            // stop video by removing src (uncomment to force stop)
-            // const saved = f.getAttribute('data-src') || f.src; f.setAttribute('data-src', saved); f.src = '';
-          }
-        });
+        if (iframe) stopAutoplay(); else if (!autoplayTimer) startAutoplay();
       }
 
-      // init
       update();
       startAutoplay();
-
-      // hide controls if only one slide
-      if (slides.length <= 1) {
-        prevBtn.style.display = 'none';
-        nextBtn.style.display = 'none';
-        dotsWrap.style.display = 'none';
-      }
+      if (slides.length <= 1) { prevBtn.style.display='none'; nextBtn.style.display='none'; dotsWrap.style.display='none'; }
     })();
   </script>
-
 </body>
 </html>
